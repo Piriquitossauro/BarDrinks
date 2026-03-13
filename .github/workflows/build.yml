@@ -1,22 +1,28 @@
 name: Build Plugin
 
 on:
- push:
-  branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
- build:
-  runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-  steps:
-   - name: Checkout
-     uses: actions/checkout@v3
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-   - name: Set up Java
-     uses: actions/setup-java@v3
-     with:
-      distribution: 'temurin'
-      java-version: '21'
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
 
-   - name: Build with Maven
-     run: cd plugin && mvn -B package
+      - name: Build with Maven
+        run: cd plugin && mvn -B package
+
+      - name: Upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: BarDrinks
+          path: plugin/target/*.jar
