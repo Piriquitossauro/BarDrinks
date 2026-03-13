@@ -7,7 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class BarDrinks extends JavaPlugin {
@@ -77,10 +78,14 @@ public class BarDrinks extends JavaPlugin {
             }
 
             ItemStack drink = new ItemStack(Material.POTION);
-            ItemMeta meta = drink.getItemMeta();
+
+            PotionMeta meta = (PotionMeta) drink.getItemMeta();
 
             meta.setDisplayName(nome);
             meta.setCustomModelData(model);
+
+            // IMPORTANTE: define conteúdo da poção
+            meta.setBasePotionType(PotionType.WATER);
 
             drink.setItemMeta(meta);
 
