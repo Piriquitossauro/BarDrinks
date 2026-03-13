@@ -1,6 +1,7 @@
 {
- "parent": "item/generated",
- "textures": {
-   "layer1": "item/cerveja"
- }
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "item/vazio",
+    "layer1": "item/cerveja"
+  }
 }
