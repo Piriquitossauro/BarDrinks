@@ -1,13 +1,40 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "minecraft:item/potion_overlay",
-    "layer1": "minecraft:item/potion"
-  },
-  "overrides": [
-    { "predicate": { "custom_model_data": 1001 }, "model": "minecraft:item/cerveja" },
-    { "predicate": { "custom_model_data": 1002 }, "model": "minecraft:item/coquetel_verde" },
-    { "predicate": { "custom_model_data": 1003 }, "model": "minecraft:item/coquetel_laranja" },
-    { "predicate": { "custom_model_data": 1004 }, "model": "minecraft:item/coquetel_vermelho" }
-  ]
+  "model": {
+    "type": "minecraft:range_dispatch",
+    "property": "minecraft:custom_model_data",
+    "entries": [
+      {
+        "threshold": 1001,
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/cerveja"
+        }
+      },
+      {
+        "threshold": 1002,
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/coquetel_verde"
+        }
+      },
+      {
+        "threshold": 1003,
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/coquetel_laranja"
+        }
+      },
+      {
+        "threshold": 1004,
+        "model": {
+          "type": "minecraft:model",
+          "model": "minecraft:item/coquetel_vermelho"
+        }
+      }
+    ],
+    "fallback": {
+      "type": "minecraft:model",
+      "model": "minecraft:item/potion"
+    }
+  }
 }
