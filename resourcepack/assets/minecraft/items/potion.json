@@ -5,36 +5,33 @@
     "entries": [
       {
         "threshold": 1001,
-        "model": {
-          "type": "minecraft:model",
-          "model": "minecraft:item/cerveja"
-        }
+        "model": { "type": "minecraft:model", "model": "minecraft:item/cerveja" }
       },
       {
         "threshold": 1002,
-        "model": {
-          "type": "minecraft:model",
-          "model": "minecraft:item/coquetel_verde"
-        }
+        "model": { "type": "minecraft:model", "model": "minecraft:item/coquetel_verde" }
       },
       {
         "threshold": 1003,
-        "model": {
-          "type": "minecraft:model",
-          "model": "minecraft:item/coquetel_laranja"
-        }
+        "model": { "type": "minecraft:model", "model": "minecraft:item/coquetel_laranja" }
       },
       {
         "threshold": 1004,
-        "model": {
-          "type": "minecraft:model",
-          "model": "minecraft:item/coquetel_vermelho"
-        }
+        "model": { "type": "minecraft:model", "model": "minecraft:item/coquetel_vermelho" }
       }
     ],
     "fallback": {
-      "type": "minecraft:model",
-      "model": "minecraft:item/potion"
+      "type": "minecraft:condition",
+      "property": "minecraft:using_item",
+      "on_true": {
+        "type": "minecraft:model",
+        "model": "minecraft:item/potion_drinking"
+      },
+      "on_false": {
+        "type": "minecraft:model",
+        "model": "minecraft:item/potion",
+        "tints": [{ "type": "minecraft:potion" }]
+      }
     }
   }
 }
