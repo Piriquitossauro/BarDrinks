@@ -36,15 +36,30 @@ public class BarDrinks extends JavaPlugin implements TabCompleter, Listener { //
     @EventHandler
     public void aoBeber(PlayerItemConsumeEvent event) {
         ItemStack item = event.getItem();
+        Player player = event.getPlayer();
         
-        // Verifica se o item consumido tem o nosso CustomModelData
-        if (item.hasItemMeta() && item.getItemMeta().hasCustomModelData()) {
-            int cmd = item.getItemMeta().getCustomModelData();
-            
-            // Se for qualquer uma das nossas bebidas (1001 a 1004)
-            if (cmd >= 1001 && cmd <= 1004) {
-                // Remove o item da mão completamente em vez de deixar o frasco vazio
-                event.setReplacementCurrentItem(new ItemStack(Material.AIR));
+        if (item.hasItemMeta()) {
+            ItemMeta meta = item.getItemMeta();
+            if (meta != null && meta.hasCustomModelData()) {
+                int cmd = meta.getCustomModelData();
+                
+                // Se for ID entre 1001 e 1004 (suas bebidas)
+                if (cmd >= 1001 && cmd <= 1004) {
+                    // Agendamos para remover o frasco logo após o consumo terminar
+                    Bukkit.getScheduler().runTask(this, () -> {
+                        ItemStack itemNaMao = player.getInventory().getItemInMainHand();
+                        ItemStack itemOffHand = player.getInventory().getItemInOffHand();
+
+                        // Se o que sobrou na mão principal foi um frasco, removemos
+                        if (itemNaMao.getType() == Material.GLASS_BOTTLE) {
+                            player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                        } 
+                        // Se ele estava bebendo com a mão esquerda
+                        else if (itemOffHand.getType() == Material.GLASS_BOTTLE) {
+                            player.getInventory().setItemInOffHand(new ItemStack(Material.AIR));
+                        }
+                    });
+                }
             }
         }
     }
