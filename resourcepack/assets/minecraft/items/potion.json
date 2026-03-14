@@ -1,1 +1,13 @@
-
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/potion_overlay",
+    "layer1": "minecraft:item/potion"
+  },
+  "overrides": [
+    { "predicate": { "custom_model_data": 1001 }, "model": "minecraft:item/cerveja" },
+    { "predicate": { "custom_model_data": 1002 }, "model": "minecraft:item/coquetel_verde" },
+    { "predicate": { "custom_model_data": 1003 }, "model": "minecraft:item/coquetel_laranja" },
+    { "predicate": { "custom_model_data": 1004 }, "model": "minecraft:item/coquetel_vermelho" }
+  ]
+}
