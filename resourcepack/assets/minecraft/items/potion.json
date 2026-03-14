@@ -34,7 +34,7 @@
     ],
     "fallback": {
       "type": "minecraft:model",
-      "model": "minecraft:item/potion_contents"
+      "model": "minecraft:item/generated"
     }
   }
 }
