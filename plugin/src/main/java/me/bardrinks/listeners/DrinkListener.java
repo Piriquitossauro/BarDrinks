@@ -13,8 +13,10 @@ public class DrinkListener implements Listener {
     @EventHandler
     public void onDrink(PlayerItemConsumeEvent e) {
 
-        if (!(e.getItem().getItemMeta() instanceof PotionMeta meta))
+        if (!(e.getItem().getItemMeta() instanceof PotionMeta))
             return;
+
+        PotionMeta meta = (PotionMeta) e.getItem().getItemMeta();
 
         if (!meta.hasCustomModelData())
             return;
