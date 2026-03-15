@@ -14,11 +14,11 @@ public class EffectManager {
 
         if (birita <= 75) {
 
-            wobble(p, 0.15);
+            wobble(p, 0.35);
 
         } else {
 
-            wobble(p, 0.30);
+            wobble(p, 0.65);
 
             p.addPotionEffect(
                     new PotionEffect(
@@ -34,11 +34,14 @@ public class EffectManager {
 
     private void wobble(Player p, double strength) {
 
-        Vector v = p.getVelocity();
+        Vector direction = p.getLocation().getDirection().normalize();
 
-        double x = (Math.random() - 0.5) * strength;
-        double z = (Math.random() - 0.5) * strength;
+        Vector sideways = new Vector(-direction.getZ(), 0, direction.getX());
 
-        p.setVelocity(v.add(new Vector(x, 0, z)));
+        double random = (Math.random() - 0.5) * strength;
+
+        Vector push = sideways.multiply(random);
+
+        p.setVelocity(p.getVelocity().add(push));
     }
 }
