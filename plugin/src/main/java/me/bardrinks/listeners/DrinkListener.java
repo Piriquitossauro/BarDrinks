@@ -2,6 +2,7 @@ package me.bardrinks.listeners;
 
 import me.bardrinks.BarDrinks;
 import me.bardrinks.models.DrinkType;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,20 +12,29 @@ import org.bukkit.inventory.meta.PotionMeta;
 public class DrinkListener implements Listener {
 
     @EventHandler
-    if (e.getItem().getType().toString().contains("WATER_BOTTLE")) {
-
-    Player p = e.getPlayer();
-
-    BarDrinks.get().getDrunkManager().removeBirita(p, 20);
-
-    int birita = BarDrinks.get().getDrunkManager().getBirita(p);
-
-    BarDrinks.get().getBossBarManager().updateBar(p, birita);
-
-    return;
-}
     public void onDrink(PlayerItemConsumeEvent e) {
 
+        Player p = e.getPlayer();
+
+        // 💧 Água reduz birita
+        if (e.getItem().getType() == Material.POTION) {
+
+            if (e.getItem().getItemMeta() instanceof PotionMeta meta) {
+
+                if (!meta.hasCustomModelData()) {
+
+                    BarDrinks.get().getDrunkManager().removeBirita(p, 20);
+
+                    int birita = BarDrinks.get().getDrunkManager().getBirita(p);
+
+                    BarDrinks.get().getBossBarManager().updateBar(p, birita);
+
+                    return;
+                }
+            }
+        }
+
+        // 🍺 Bebidas alcoólicas
         if (!(e.getItem().getItemMeta() instanceof PotionMeta))
             return;
 
@@ -34,8 +44,6 @@ public class DrinkListener implements Listener {
             return;
 
         int model = meta.getCustomModelData();
-
-        Player p = e.getPlayer();
 
         for (DrinkType type : DrinkType.values()) {
 
@@ -48,7 +56,6 @@ public class DrinkListener implements Listener {
                 BarDrinks.get().getBossBarManager().updateBar(p, birita);
 
                 BarDrinks.get().getRankingManager().addDrink(p);
-
 
                 return;
             }
