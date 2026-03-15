@@ -11,6 +11,18 @@ import org.bukkit.inventory.meta.PotionMeta;
 public class DrinkListener implements Listener {
 
     @EventHandler
+    if (e.getItem().getType().toString().contains("WATER_BOTTLE")) {
+
+    Player p = e.getPlayer();
+
+    BarDrinks.get().getDrunkManager().removeBirita(p, 20);
+
+    int birita = BarDrinks.get().getDrunkManager().getBirita(p);
+
+    BarDrinks.get().getBossBarManager().updateBar(p, birita);
+
+    return;
+}
     public void onDrink(PlayerItemConsumeEvent e) {
 
         if (!(e.getItem().getItemMeta() instanceof PotionMeta))
