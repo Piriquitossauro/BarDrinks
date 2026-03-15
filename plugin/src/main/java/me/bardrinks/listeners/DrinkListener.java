@@ -19,7 +19,9 @@ public class DrinkListener implements Listener {
         // 💧 Água reduz birita
         if (e.getItem().getType() == Material.POTION) {
 
-            if (e.getItem().getItemMeta() instanceof PotionMeta meta) {
+            if (e.getItem().getItemMeta() instanceof PotionMeta) {
+
+                PotionMeta meta = (PotionMeta) e.getItem().getItemMeta();
 
                 if (!meta.hasCustomModelData()) {
 
