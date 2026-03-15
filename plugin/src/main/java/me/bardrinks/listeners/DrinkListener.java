@@ -37,7 +37,6 @@ public class DrinkListener implements Listener {
 
                 BarDrinks.get().getRankingManager().addDrink(p);
 
-                p.sendMessage("§eVocê bebeu... nível de birita: " + birita);
 
                 return;
             }
