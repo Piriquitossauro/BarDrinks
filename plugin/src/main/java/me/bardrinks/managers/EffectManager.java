@@ -1,0 +1,44 @@
+package me.bardrinks.managers;
+
+import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
+
+public class EffectManager {
+
+    public void applyEffects(Player p, int birita) {
+
+        if (birita <= 40)
+            return;
+
+        if (birita <= 75) {
+
+            wobble(p, 0.15);
+
+        } else {
+
+            wobble(p, 0.30);
+
+            p.addPotionEffect(
+                    new PotionEffect(
+                            PotionEffectType.NAUSEA,
+                            200,
+                            0,
+                            false,
+                            false
+                    )
+            );
+        }
+    }
+
+    private void wobble(Player p, double strength) {
+
+        Vector v = p.getVelocity();
+
+        double x = (Math.random() - 0.5) * strength;
+        double z = (Math.random() - 0.5) * strength;
+
+        p.setVelocity(v.add(new Vector(x, 0, z)));
+    }
+}
