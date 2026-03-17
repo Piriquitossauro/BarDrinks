@@ -40,7 +40,7 @@ public class ChatListener implements Listener {
             result.append(word).append(" ");
         }
 
-        if (birita > 75 && r.nextDouble() < 0.25)
+        if (birita > 75 && r.nextDouble() < 0.50)
             result.append("...hic");
 
         e.setMessage(result.toString().trim());
