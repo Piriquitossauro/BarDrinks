@@ -14,11 +14,11 @@ public class EffectManager {
 
         if (birita <= 75) {
 
-            wobble(p, 0.8);
+            wobble(p, 2.5);
 
         } else {
 
-            wobble(p, 1.6);
+            wobble(p, 5);
 
             p.addPotionEffect(
                     new PotionEffect(
