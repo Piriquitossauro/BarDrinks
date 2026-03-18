@@ -1,8 +1,9 @@
-commands:
-  bardrink:
-    description: Dar bebida
-    usage: /bardrink <player> <bebida>
-    aliases: [drink]
-  bebuns:
-    description: Ranking de bebuns
-    usage: /bebuns
+name: BarDrinks
+version: 1.0 
+main: me.bardrinks.BarDrinks 
+api-version: 1.21 
+commands: 
+bardrink: 
+description: Dar bebida
+bebuns: 
+description: Ranking de bebuns
