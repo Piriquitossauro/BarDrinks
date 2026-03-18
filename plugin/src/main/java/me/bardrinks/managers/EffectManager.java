@@ -18,7 +18,7 @@ public class EffectManager {
 
         } else {
 
-            wobble(p, 120);
+            wobble(p, 3.0);
 
             p.addPotionEffect(
                     new PotionEffect(
