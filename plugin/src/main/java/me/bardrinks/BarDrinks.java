@@ -1,5 +1,6 @@
 package me.bardrinks;
 
+import me.bardrinks.commands.BardrinkTab;
 import me.bardrinks.listeners.ChatListener;
 import me.bardrinks.listeners.DrinkListener;
 import me.bardrinks.managers.*;
