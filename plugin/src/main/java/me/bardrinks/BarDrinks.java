@@ -51,6 +51,8 @@ public class BarDrinks extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new DrinkListener(), this);
         Bukkit.getPluginManager().registerEvents(new ChatListener(), this);
 
+        getCommand("bardrink").setTabCompleter(new BardrinkTab());
+
         startSobrietySystem();
         startEffectSystem();
 
