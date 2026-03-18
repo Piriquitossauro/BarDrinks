@@ -1,48 +1,21 @@
-package me.bardrinks.managers;
+package me.bardrinks.commands;
 
-import org.bukkit.entity.Player;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.util.Vector;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
 
-public class EffectManager {
+import java.util.Arrays;
+import java.util.List;
 
-    public void applyEffects(Player p, int birita) {
+public class BardrinkTab implements TabCompleter {
 
-        if (birita <= 40)
-            return;
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
 
-        if (birita <= 75) {
+        if (args.length == 2) {
+            return Arrays.asList("cerveja", "verde", "laranja", "vermelho");
+        }
 
-    wobble(p, 0.8);
-
-} else {
-
-    wobble(p, 1.6);
-
-    p.addPotionEffect(
-            new PotionEffect(
-                    PotionEffectType.NAUSEA,
-                    200,
-                    0,
-                    false,
-                    false
-            )
-    );
-}
+        return null;
     }
-
-    private void wobble(Player p, double strength) {
-
-    Vector direction = p.getLocation().getDirection().normalize();
-
-    // vetor lateral
-    Vector sideways = new Vector(-direction.getZ(), 0, direction.getX());
-
-    double random = (Math.random() - 0.5);
-
-    Vector push = sideways.multiply(random * strength);
-
-    // empurrão mais forte
-    p.setVelocity(p.getVelocity().add(push));
 }
