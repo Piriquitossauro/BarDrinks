@@ -14,35 +14,34 @@ public class EffectManager {
 
         if (birita <= 75) {
 
-    wobble(p, 0.8);
+            wobble(p, 0.8);
 
-} else {
+        } else {
 
-    wobble(p, 1.6);
+            wobble(p, 1.6);
 
-    p.addPotionEffect(
-            new PotionEffect(
-                    PotionEffectType.NAUSEA,
-                    200,
-                    0,
-                    false,
-                    false
-            )
-    );
-}
+            p.addPotionEffect(
+                    new PotionEffect(
+                            PotionEffectType.NAUSEA,
+                            200,
+                            0,
+                            false,
+                            false
+                    )
+            );
+        }
     }
 
     private void wobble(Player p, double strength) {
 
-    Vector direction = p.getLocation().getDirection().normalize();
+        Vector direction = p.getLocation().getDirection().normalize();
 
-    // vetor lateral
-    Vector sideways = new Vector(-direction.getZ(), 0, direction.getX());
+        Vector sideways = new Vector(-direction.getZ(), 0, direction.getX());
 
-    double random = (Math.random() - 0.5);
+        double random = (Math.random() - 0.5);
 
-    Vector push = sideways.multiply(random * strength);
+        Vector push = sideways.multiply(random * strength);
 
-    // empurrão mais forte
-    p.setVelocity(p.getVelocity().add(push));
+        p.setVelocity(p.getVelocity().add(push));
+    }
 }
