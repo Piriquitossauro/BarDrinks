@@ -38,16 +38,15 @@ public class EffectManager {
                             false
                     )
             );
-             if (Math.random() < 0.3) { // 30% de chance pra não spammar
+              if (Math.random() < 0.3) { // 30% de chance pra não spammar
 
-        p.spawnParticle(
-    Particle.SPELL_MOB,
-    p.getLocation().add(0, 1, 0),
-    6,
-    0.3, 0.5, 0.3,
-    1,
-    new org.bukkit.Color(0, 255, 0)
-);
+        p.getWorld().spawnParticle(
+            Particle.SPELL_MOB,
+            p.getLocation().add(0, 1, 0),
+            6,          // quantidade
+            0.3, 0.5, 0.3, // espalhamento
+            0           // velocidade
+        );
     }
 
     trySitOrLay(p, birita);
