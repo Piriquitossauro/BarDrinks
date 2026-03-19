@@ -91,7 +91,7 @@ public class EffectManager {
         double chance = Math.random();
 
         // deitar (bem raro)
-        if (chance < 0.08) {
+        if (chance < 0.04) {
 
             p.performCommand("lay");
             lastAction.put(p.getUniqueId(), now);
@@ -99,7 +99,7 @@ public class EffectManager {
         }
 
         // sentar
-        if (chance < 0.10) {
+        if (chance < 0.05) {
 
             p.performCommand("sit");
             lastAction.put(p.getUniqueId(), now);
