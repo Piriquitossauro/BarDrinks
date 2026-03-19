@@ -4,7 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
-
+import org.bukkit.Particle;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -38,10 +38,20 @@ public class EffectManager {
                             false
                     )
             );
+             if (Math.random() < 0.25) {
 
-            trySitOrLay(p, birita);
-        }
+        p.getWorld().spawnParticle(
+                Particle.ENTITY_EFFECT,
+                p.getLocation().add(0, 1, 0),
+                3,
+                0.2, 0.4, 0.2,
+                0
+             trySitOrLay(p, birita);
+        );
     }
+}
+
+
 
     private void wobble(Player p, double strength) {
 
