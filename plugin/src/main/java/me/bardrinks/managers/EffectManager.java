@@ -38,16 +38,9 @@ public class EffectManager {
                             false
                     )
             );
-             if (Math.random() < 0.25) {
-
-        p.getWorld().spawnParticle(
-                Particle.ENTITY_EFFECT,
-                p.getLocation().add(0, 1, 0),
-                3,
-                0.2, 0.4, 0.2,
-                0
+             
              trySitOrLay(p, birita);
-        );
+        }
     }
 }
 
