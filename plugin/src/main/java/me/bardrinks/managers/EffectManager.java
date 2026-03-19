@@ -45,7 +45,7 @@ public class EffectManager {
             p.getLocation().add(0, 1, 0),
             6,          // quantidade
             0.3, 0.5, 0.3, // espalhamento
-            0,           // velocidade
+            0           // velocidade
         );
     }
 }
