@@ -29,8 +29,16 @@ public class EffectManager {
                             false
                     )
             );
-        }
+          // 🍺 chance de sentar
+    if (Math.random() < 0.05) { // 5%
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sit " + p.getName());
     }
+
+    // 🍺 chance de deitar (mais raro)
+    if (Math.random() < 0.02) { // 2%
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lay " + p.getName());
+    }
+}
 
     private void wobble(Player p, double strength) {
 
