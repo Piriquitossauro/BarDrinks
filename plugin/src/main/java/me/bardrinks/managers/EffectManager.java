@@ -39,10 +39,9 @@ public class EffectManager {
                     )
             );
              
-             trySitOrLay(p, birita);
+            trySitOrLay(p, birita);
         }
     }
-}
 
 
 
