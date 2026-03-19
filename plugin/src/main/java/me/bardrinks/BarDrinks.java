@@ -67,7 +67,7 @@ public class BarDrinks extends JavaPlugin {
 
     // COMANDOS
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+   public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if (command.getName().equalsIgnoreCase("bebuns")) {
 
@@ -75,14 +75,12 @@ public class BarDrinks extends JavaPlugin {
             return true;
         }
 
-       if (command.getName().equalsIgnoreCase("bebuns")) {
+        if (command.getName().equalsIgnoreCase("bardrink")) {
 
-    sender.sendMessage("§6Ranking ainda não implementado.");
-    return true;
-}
-
-    return true;
-}
+            if (args.length < 2) {
+                sender.sendMessage("§cUse: /bardrink <player> <cerveja|verde|laranja|vermelho>");
+                return true;
+            }
 
             Player alvo = Bukkit.getPlayer(args[0]);
 
