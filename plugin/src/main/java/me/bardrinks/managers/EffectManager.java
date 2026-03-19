@@ -5,6 +5,8 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 import org.bukkit.Particle;
+import org.bukkit.Particle.DustOptions;
+import org.bukkit.Color;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -38,17 +40,16 @@ public class EffectManager {
                             false
                     )
             );
-              if (Math.random() < 0.3) { // 30% de chance pra não spammar
+              if (Math.random() < 0.3) {
 
-        p.getWorld().spawnParticle(
-            Particle.SPELL_MOB,
-            p.getLocation().add(0, 1, 0),
-            6,          // quantidade
-            0.3, 0.5, 0.3, // espalhamento
-            0           // velocidade
-            new org.bukkit.Color(0, 255, 0)
-        );
-    }
+    p.getWorld().spawnParticle(
+        Particle.REDSTONE,
+        p.getLocation().add(0, 1, 0),
+        6,
+        0.3, 0.5, 0.3,
+        new DustOptions(Color.fromRGB(0, 255, 0), 1)
+    );
+}
 
     trySitOrLay(p, birita);
 }
