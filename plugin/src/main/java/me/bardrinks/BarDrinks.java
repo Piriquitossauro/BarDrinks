@@ -69,27 +69,12 @@ public class BarDrinks extends JavaPlugin {
     @Override
    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-       if (command.getName().equalsIgnoreCase("bebuns")) {
+      if (command.getName().equalsIgnoreCase("bebuns")) {
 
-    sender.sendMessage("§6Top Bebuns do Servidor:");
-
-    int pos = 1;
-
-    for (var entry : rankingManager.getTop()) {
-
-        String nome = Bukkit.getOfflinePlayer(entry.getKey()).getName();
-        int qtd = entry.getValue();
-
-        sender.sendMessage("§e" + pos + ". §f" + nome + " §7- " + qtd + " bebidas");
-
-        pos++;
-
-        if (pos > 10) break;
-    }
-
-    return true;
-}
-
+            sender.sendMessage("§6Ranking ainda não implementado.");
+            return true;
+        }
+       
         if (command.getName().equalsIgnoreCase("bardrink")) {
 
             if (args.length < 2) {
