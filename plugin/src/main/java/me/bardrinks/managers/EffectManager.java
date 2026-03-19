@@ -48,6 +48,7 @@ public class EffectManager {
             0,           // velocidade
         );
     }
+}
 
     trySitOrLay(p, birita);
 }
