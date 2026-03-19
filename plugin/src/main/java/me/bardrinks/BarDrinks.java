@@ -75,12 +75,26 @@ public class BarDrinks extends JavaPlugin {
             return true;
         }
 
-        if (command.getName().equalsIgnoreCase("bardrink")) {
+       if (command.getName().equalsIgnoreCase("bebuns")) {
 
-            if (args.length < 2) {
-                sender.sendMessage("§cUse: /bardrink <player> <cerveja|verde|laranja|vermelho>");
-                return true;
-            }
+    sender.sendMessage("§6Top Bebuns do Servidor:");
+
+    int pos = 1;
+
+    for (var entry : rankingManager.getTop()) {
+
+        String nome = Bukkit.getOfflinePlayer(entry.getKey()).getName();
+        int qtd = entry.getValue();
+
+        sender.sendMessage("§e" + pos + ". §f" + nome + " §7- " + qtd + " bebidas");
+
+        pos++;
+
+        if (pos > 10) break;
+    }
+
+    return true;
+}
 
             Player alvo = Bukkit.getPlayer(args[0]);
 
