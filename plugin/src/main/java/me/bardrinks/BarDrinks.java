@@ -75,7 +75,7 @@ public class BarDrinks extends JavaPlugin {
 
     int pos = 1;
 
-    for (var entry : rankingManager.getTop()) {
+    for (Map.Entry<UUID, Integer> entry : rankingManager.getTop()) {
 
         String nome = Bukkit.getOfflinePlayer(entry.getKey()).getName();
         int qtd = entry.getValue();
