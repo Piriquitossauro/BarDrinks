@@ -13,6 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionType;
+import java.util.Map;
+import java.util.UUID;
 
 public class BarDrinks extends JavaPlugin {
 
@@ -75,7 +77,7 @@ public class BarDrinks extends JavaPlugin {
 
     int pos = 1;
 
-    for (Map.Entry<UUID, Integer> entry : rankingManager.getTop()) {
+    for (Map.Entry<java.util.UUID, Integer> entry : rankingManager.getTop()) {
 
         String nome = Bukkit.getOfflinePlayer(entry.getKey()).getName();
         int qtd = entry.getValue();
