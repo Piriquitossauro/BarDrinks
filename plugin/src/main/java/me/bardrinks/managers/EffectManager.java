@@ -46,6 +46,7 @@ public class EffectManager {
             6,          // quantidade
             0.3, 0.5, 0.3, // espalhamento
             0           // velocidade
+            new org.bukkit.Color(0, 255, 0)
         );
     }
 
