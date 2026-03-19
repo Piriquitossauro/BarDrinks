@@ -38,20 +38,20 @@ public class EffectManager {
                             false
                     )
             );
-              if (Math.random() < 0.3) { // 30% de chance pra não spammar
+              if (Math.random() < 0.3) { 
+                // Usando HAPPY_VILLAGER para partículas verdes sem complicação de cor RGB
+                p.getWorld().spawnParticle(
+                        Particle.HAPPY_VILLAGER,
+                        p.getLocation().add(0, 1, 0),
+                        6,           // quantidade
+                        0.3, 0.5, 0.3, // espalhamento
+                        0.1          // velocidade (um pouco de movimento fica melhor)
+                );
+            }
+        } // <-- Fechamento do else que estava faltando ou bugado
 
-        p.getWorld().spawnParticle(
-            Particle.SPELL_MOB,
-            p.getLocation().add(0, 1, 0),
-            6,          // quantidade
-            0.3, 0.5, 0.3, // espalhamento
-            0           // velocidade
-        );
+        trySitOrLay(p, birita);
     }
-}
-
-    trySitOrLay(p, birita);
-}
 
 
 
