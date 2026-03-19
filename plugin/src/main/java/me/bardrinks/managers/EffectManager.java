@@ -7,6 +7,8 @@ import org.bukkit.util.Vector;
 import org.bukkit.Particle;
 import java.util.HashMap;
 import java.util.UUID;
+import org.bukkit.Color;
+
 
 public class EffectManager {
 
@@ -41,11 +43,11 @@ public class EffectManager {
               if (Math.random() < 0.3) { 
                 // Usando HAPPY_VILLAGER para partículas verdes sem complicação de cor RGB
                 p.getWorld().spawnParticle(
-                        Particle.HAPPY_VILLAGER,
-                        p.getLocation().add(0, 1, 0),
-                        6,           // quantidade
-                        0.3, 0.5, 0.3, // espalhamento
-                        0.1          // velocidade (um pouco de movimento fica melhor)
+                        Particle.ENTITY_EFFECT,
+                        p.getLocation().add(0, 1.2, 0),
+                        8,           // quantidade
+                        0.4, 0.4, 0.4, // espalhamento
+                        poisonGreen       
                 );
             }
         } // <-- Fechamento do else que estava faltando ou bugado
