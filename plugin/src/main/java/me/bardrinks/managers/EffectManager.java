@@ -80,13 +80,13 @@ public class EffectManager {
 
         if (chance < 0.10) { // 5% sentar
 
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "sit " + p.getName());
-            lastAction.put(p.getUniqueId(), now);
+             Bukkit.dispatchCommand(p, "sit");
+    lastAction.put(p.getUniqueId(), now);
 
         } else if (chance < 0.15) { // 2% deitar
 
-            Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "lay " + p.getName());
-            lastAction.put(p.getUniqueId(), now);
+            Bukkit.dispatchCommand(p, "lay");
+    lastAction.put(p.getUniqueId(), now);
         }
     }
 }
