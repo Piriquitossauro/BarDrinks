@@ -41,20 +41,20 @@ public class EffectManager {
                     )
             );
               if (Math.random() < 0.3) { 
-                // Usando HAPPY_VILLAGER para partículas verdes sem complicação de cor RGB
+                // AQUI O SEGREDO: Definir a cor antes de usar ela ali embaixo
+                Color poisonGreen = Color.fromRGB(79, 147, 36); 
                 p.getWorld().spawnParticle(
                         Particle.ENTITY_EFFECT,
                         p.getLocation().add(0, 1.2, 0),
-                        8,           // quantidade
-                        0.4, 0.4, 0.4, // espalhamento
-                        poisonGreen       
+                        8,                // quantidade
+                        0.4, 0.4, 0.4,    // espalhamento
+                        poisonGreen       // Agora o Java sabe quem é!
                 );
             }
-        } // <-- Fechamento do else que estava faltando ou bugado
+        } 
 
         trySitOrLay(p, birita);
     }
-
 
 
     private void wobble(Player p, double strength) {
