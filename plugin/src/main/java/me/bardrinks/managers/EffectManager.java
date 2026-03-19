@@ -1,6 +1,5 @@
 package me.bardrinks.managers;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -11,10 +10,13 @@ import java.util.UUID;
 
 public class EffectManager {
 
-    // ⏱ cooldown pra evitar spam de sit/lay
     private final HashMap<UUID, Long> lastAction = new HashMap<>();
 
     public void applyEffects(Player p, int birita) {
+
+        // 🚫 não aplica efeito se estiver sentado/deitado
+        if (p.isInsideVehicle())
+            return;
 
         if (birita <= 40)
             return;
@@ -49,7 +51,6 @@ public class EffectManager {
 
         double random = (Math.random() - 0.5);
 
-        // evita micro tremida fraca
         if (Math.abs(random) < 0.2)
             return;
 
@@ -60,33 +61,34 @@ public class EffectManager {
 
     private void trySitOrLay(Player p, int birita) {
 
-        // não tenta se já está sentado/montado
         if (p.isInsideVehicle())
             return;
 
         long now = System.currentTimeMillis();
-
         long last = lastAction.getOrDefault(p.getUniqueId(), 0L);
 
-        // ⏱ cooldown de 5 segundos
-        if (now - last < 5000)
+        // ⏱ cooldown maior
+        if (now - last < 8000)
             return;
 
-        // 🍺 só ativa quando MUITO bêbado
         if (birita < 60)
             return;
 
         double chance = Math.random();
 
-        if (chance < 0.10) { // 5% sentar
+        // deitar (bem raro)
+        if (chance < 0.08) {
 
-             Bukkit.dispatchCommand(p, "sit");
-    lastAction.put(p.getUniqueId(), now);
+            p.performCommand("lay");
+            lastAction.put(p.getUniqueId(), now);
+            return;
+        }
 
-        } else if (chance < 0.15) { // 2% deitar
+        // sentar
+        if (chance < 0.10) {
 
-            Bukkit.dispatchCommand(p, "lay");
-    lastAction.put(p.getUniqueId(), now);
+            p.performCommand("sit");
+            lastAction.put(p.getUniqueId(), now);
         }
     }
 }
