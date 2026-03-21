@@ -1,9 +1,7 @@
 package me.bardrinks.managers;
 
 import org.bukkit.Color;
-import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.entity.AreaEffectCloud;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -15,77 +13,62 @@ import java.util.UUID;
 public class EffectManager {
 
     private final HashMap<UUID, Long> lastAction = new HashMap<>();
-    // Guarda a nuvem de partículas para cada jogador
-    private final HashMap<UUID, AreaEffectCloud> activeClouds = new HashMap<>();
 
     public void applyEffects(Player p, int birita) {
 
-        // 🚫 Se estiver sentado/deitado, remove as partículas pra não bugar a visão
-        if (p.isInsideVehicle()) {
-            removeParticles(p);
-            return;
-        }
-
-        // Se a birita baixou da fase crítica, limpa o efeito visual
-        if (birita <= 75) {
-            removeParticles(p);
-            if (birita > 40) {
-                wobble(p, 1.8);
-            }
-            return;
-        }
-
         // --- FASE 4 (Birita > 75) ---
-        wobble(p, 3.0);
+        if (birita > 75) {
+            
+            // 🚫 Se estiver sentado/deitado, remove as partículas pra não bugar a visão
+            if (p.isInsideVehicle()) {
+                p.removePotionEffect(PotionEffectType.LUCK); // Remove as partículas ao sentar
+                return;
+            }
 
-        p.addPotionEffect(
-                new PotionEffect(
-                        PotionEffectType.NAUSEA,
-                        200,
-                        0,
-                        false,
-                        false,
-                        false
-                )
-        );
+            wobble(p, 3.0);
 
-        // Aplica o efeito visual contínuo
-        startPersistentParticles(p);
+            // Náusea persistente por 200 ticks (10s)
+            p.addPotionEffect(
+                    new PotionEffect(
+                            PotionEffectType.NAUSEA,
+                            200, // Duração
+                            0,   // Amplificador
+                            false, // Ambiente
+                            false, // Partículas
+                            false  // Ícone
+                    )
+            );
 
-        trySitOrLay(p, birita);
-    }
+            // AQUI O SEGREDO: Adiciona o efeito de SORTE para particulas contínuas
+            // É leve, nativo e verde!
+            p.addPotionEffect(
+                    new PotionEffect(
+                            PotionEffectType.LUCK, // Efeito de Sorte (é verde!)
+                            Integer.MAX_VALUE,      // Duração quase infinita (será removido manualmente)
+                            0,                      // Amplificador
+                            false,                  // Ambiente (não é de farol/becon)
+                            true,                   // SIM, MOSTRAR PARTÍCULAS
+                            false                   // NÃO MOSTRAR ÍCONE
+                    )
+            );
 
-    private void startPersistentParticles(Player p) {
-        UUID id = p.getUniqueId();
-
-        // Se já tem uma nuvem ativa e válida, não precisa criar outra
-        if (activeClouds.containsKey(id)) {
-            if (activeClouds.get(id).isValid()) return;
-            else activeClouds.remove(id);
+            trySitOrLay(p, birita);
+            return; // Interrompe aqui para não rodar a lógica das outras fases
         }
 
-        Color poisonGreen = Color.fromRGB(79, 147, 36);
-        
-        // Cria a nuvem de efeito de área (invisível, só solta partícula)
-        AreaEffectCloud cloud = p.getWorld().spawn(p.getLocation(), AreaEffectCloud.class);
-        
-        cloud.setParticle(Particle.ENTITY_EFFECT);
-        cloud.setColor(poisonGreen);
-        cloud.setRadius(0.2f);           // Raio pequeno para as partículas saírem do corpo
-        cloud.setDuration(1200);         // Dura 1 minuto (será renovado ou removido pelo plugin)
-        cloud.setWaitTime(0);
-        
-        // Faz a nuvem seguir o player (anexa como passageiro invisível)
-        p.addPassenger(cloud); 
-        
-        activeClouds.put(id, cloud);
-    }
-
-    private void removeParticles(Player p) {
-        AreaEffectCloud cloud = activeClouds.remove(p.getUniqueId());
-        if (cloud != null && cloud.isValid()) {
-            cloud.remove();
+        // --- FASE 3 (40 < Birita <= 75) ---
+        if (birita > 40) {
+            
+            // Remove as partículas da Fase 4
+            p.removePotionEffect(PotionEffectType.LUCK);
+            
+            wobble(p, 1.8);
+            return; // Interrompe
         }
+
+        // --- FASE 1 ou 2 (Birita <= 40) ---
+        // Garante que as partículas sejam removidas ao baixar a birita
+        p.removePotionEffect(PotionEffectType.LUCK);
     }
 
     private void wobble(Player p, double strength) {
@@ -106,6 +89,7 @@ public class EffectManager {
         long now = System.currentTimeMillis();
         long last = lastAction.getOrDefault(p.getUniqueId(), 0L);
 
+        // Cooldown de 8 segundos
         if (now - last < 8000) return;
         if (birita < 60) return;
 
@@ -114,14 +98,14 @@ public class EffectManager {
         if (chance < 0.04) { // 4% de chance de deitar
             p.performCommand("lay");
             lastAction.put(p.getUniqueId(), now);
-            removeParticles(p); // Remove as partículas ao deitar pra não atrapalhar
+             // Remove as partículas ao deitar pra não atrapalhar
             return;
         }
 
         if (chance < 0.05) { // 5% de chance de sentar
             p.performCommand("sit");
             lastAction.put(p.getUniqueId(), now);
-            removeParticles(p);
+            
         }
     }
 }
