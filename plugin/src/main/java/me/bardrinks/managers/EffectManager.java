@@ -1,6 +1,5 @@
 package me.bardrinks.managers;
 
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -13,7 +12,12 @@ public class EffectManager {
     private final HashMap<UUID, Long> lastAction = new HashMap<>();
 
     public void applyEffects(Player p, int birita) {
-        // Se baixar de 75, limpa as partículas de Sorte
+        
+        // 🛡️ Se já estiver no chão ou sentado, não faz NADA (evita o loop do fantasma)
+        if (p.isInsideVehicle() || p.isSleeping()) {
+            return; 
+        }
+
         if (birita <= 75) {
             if (p.hasPotionEffect(PotionEffectType.LUCK)) p.removePotionEffect(PotionEffectType.LUCK);
             if (birita > 40) wobble(p, 1.8);
@@ -23,10 +27,10 @@ public class EffectManager {
         // --- FASE 4 (Birita > 75) ---
         wobble(p, 3.0);
         
-        // Náusea (Sem partículas próprias)
+        // Náusea (Sem ícone)
         p.addPotionEffect(new PotionEffect(PotionEffectType.NAUSEA, 200, 0, false, false, false));
 
-        // Efeito de Partículas (Sorte = Verde poção)
+        // Partículas verdes constantes
         if (!p.hasPotionEffect(PotionEffectType.LUCK)) {
             p.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, Integer.MAX_VALUE, 0, false, true, false));
         }
@@ -35,56 +39,37 @@ public class EffectManager {
     }
 
     private void trySitOrLay(Player p, int birita) {
-        // 🛡️ TRAVA 1: Se já estiver sentado ou deitado, não faz nada
-        if (p.isInsideVehicle() || p.isSleeping()) return;
-
-        // 🛡️ TRAVA 2: Se estiver no AR, não tenta sentar (evita erro do GSit)
-        if (!p.isOnGround()) return;
-
+        UUID uuid = p.getUniqueId();
         long now = System.currentTimeMillis();
-        long last = lastAction.getOrDefault(p.getUniqueId(), 0L);
+        long last = lastAction.getOrDefault(uuid, 0L);
 
-        if (now - last < 10000) return;
-        if (birita < 60) return;
+        // ⏱️ Cooldown de 15 segundos: O segredo para parar o "pisca-pisca"
+        if (now - last < 15000) return;
+        
+        // Só tenta se estiver no chão e com a birita alta (> 60 para deitar/sentar)
+        if (birita < 60 || !p.isOnGround()) return;
 
         double chance = Math.random();
 
-        // O /lay é mais instável, então damos um tempo maior para ele processar
+        // Salva o tempo ANTES de executar o comando para travar o próximo loop imediatamente
         if (chance < 0.04) { 
-            lastAction.put(p.getUniqueId(), now);
+            lastAction.put(uuid, now); 
             p.performCommand("lay");
-            forceUpdate(p); // Tenta evitar que o player suma
-        } else if (chance < 0.05) {
-            lastAction.put(p.getUniqueId(), now);
+        } else if (chance < 0.05) { 
+            lastAction.put(uuid, now); 
             p.performCommand("sit");
-            forceUpdate(p);
         }
     }
 
-    private void forceUpdate(Player p) {
-        // Espera 3 ticks para o GSit estabilizar a posição
-        Bukkit.getScheduler().runTaskLater(
-            Bukkit.getPluginManager().getPlugin("BarDrinks"), 
-            () -> {
-                if (p.isOnline() && p.isInsideVehicle()) {
-                    // Em vez de teleportar, vamos esconder e mostrar o player 
-                    // Isso força o Minecraft a renderizar o modelo de novo do zero
-                    for (Player online : Bukkit.getOnlinePlayers()) {
-                        online.hidePlayer(Bukkit.getPluginManager().getPlugin("BarDrinks"), p);
-                        online.showPlayer(Bukkit.getPluginManager().getPlugin("BarDrinks"), p);
-                    }
-                    
-                    // Garante que o player veja a si mesmo (em terceira pessoa)
-                    p.sendHealthUpdate(); 
-                }
-            }, 3L); // Aumentei para 3 ticks para garantir
-    }
-
     private void wobble(Player p, double strength) {
+        // Se estiver montado em algo, o velocity buga a renderização da skin
+        if (p.isInsideVehicle()) return;
+
         Vector direction = p.getLocation().getDirection().normalize();
         Vector sideways = new Vector(-direction.getZ(), 0, direction.getX());
         double random = (Math.random() - 0.5);
         if (Math.abs(random) < 0.2) return;
+        
         p.setVelocity(p.getVelocity().add(sideways.multiply(random * strength)));
     }
 }
