@@ -62,16 +62,22 @@ public class EffectManager {
     }
 
     private void forceUpdate(Player p) {
-        // Espera 2 ticks para o GSit terminar de colocar o player na entidade
-        // e aí dá um "refresh" na skin dele
+        // Espera 3 ticks para o GSit estabilizar a posição
         Bukkit.getScheduler().runTaskLater(
             Bukkit.getPluginManager().getPlugin("BarDrinks"), 
             () -> {
                 if (p.isOnline() && p.isInsideVehicle()) {
-                    // Teleporte milimétrico para forçar o servidor a reenviar o modelo do player
-                    p.teleport(p.getLocation().add(0, 0.01, 0));
+                    // Em vez de teleportar, vamos esconder e mostrar o player 
+                    // Isso força o Minecraft a renderizar o modelo de novo do zero
+                    for (Player online : Bukkit.getOnlinePlayers()) {
+                        online.hidePlayer(Bukkit.getPluginManager().getPlugin("BarDrinks"), p);
+                        online.showPlayer(Bukkit.getPluginManager().getPlugin("BarDrinks"), p);
+                    }
+                    
+                    // Garante que o player veja a si mesmo (em terceira pessoa)
+                    p.sendHealthUpdate(); 
                 }
-            }, 2L);
+            }, 3L); // Aumentei para 3 ticks para garantir
     }
 
     private void wobble(Player p, double strength) {
