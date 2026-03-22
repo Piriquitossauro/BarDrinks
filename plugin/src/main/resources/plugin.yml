@@ -8,6 +8,16 @@ commands:
     description: Dar bebida
     usage: /bardrink <player> <bebida>
     aliases: [drink]
+    permission: bardrinks.admin # Vincula a permissão ao comando
   bebuns:
     description: Ranking de bebuns
     usage: /bebuns
+    permission: bardrinks.player # Vincula a permissão ao comando
+
+permissions:
+  bardrinks.admin:
+    description: Permissão para criar bebidas (Staff)
+    default: op # Por padrão, apenas OPs têm essa
+  bardrinks.player:
+    description: Permissão para ver o ranking (Todos)
+    default: true # Por padrão, todos os players têm essa
