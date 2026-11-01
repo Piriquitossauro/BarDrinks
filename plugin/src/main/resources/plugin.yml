@@ -1,0 +1,23 @@
+name: BarDrinks
+version: 1.0
+main: me.bardrinks.BarDrinks
+api-version: 1.21
+
+commands:
+  bardrink:
+    description: Menu e gerenciamento de bebidas do Bar
+    usage: /bardrink [player|bebida|menu|set|vomitar] [bebida|qtd] [qtd]
+    aliases: [drink]
+    permission: bardrinks.admin
+  bebuns:
+    description: Ranking dos maiores bebuns do servidor
+    usage: /bebuns
+    permission: bardrinks.player
+
+permissions:
+  bardrinks.admin:
+    description: Permissão para criar e gerenciar bebidas (Barman/Staff)
+    default: op
+  bardrinks.player:
+    description: Permissão para ver o ranking de bebuns (Todos)
+    default: true
